@@ -13,7 +13,7 @@ export function AppNavigator(){
         <NavigationContainer>
             <Stack.Navigator>
                 {isAuthenticated ? (
-                    <Stack.Screen name="Pestañas" component={TabsNavigator} options={{headerShown:false}}/>
+                    <Stack.Screen name="Tabs" component={TabsNavigator} options={{headerShown:false}}/>
                 ):(
                     <Stack.Screen name="Login" component={LoginScreen} options={{headerShown:false}}/>
                 
