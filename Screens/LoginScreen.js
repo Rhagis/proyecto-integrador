@@ -29,7 +29,7 @@ export default function LoginScreen({ navigation}){
             try {
                 const credenciales = await createUserWithEmailAndPassword(auth,usuario,contraseña)
                 const userId = credenciales.user.uid
-                await setIsAuthenticated(!!uid)
+                await setIsAuthenticated(!!userId)
                 setTimeout(()=> navigation.navigate('Tabs'),100)
                 navigation.navigate('Tabs')
             } catch (error) {
