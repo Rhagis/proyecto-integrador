@@ -6,7 +6,7 @@ import { auth } from '../config/Firebase';
 import { useAuth } from '../auth/useAuth';
 
 export default function LoginScreen({ navigation}){
-    const { setIsAuthenticated} = useAuth()
+    const { setIsAuthenticated } = useAuth()
     const [usuario, setUsuario] = useState('')
     const [contraseña, setContraseña] = useState('')
 
@@ -29,7 +29,7 @@ export default function LoginScreen({ navigation}){
             try {
                 const credenciales = await createUserWithEmailAndPassword(auth,usuario,contraseña)
                 const userId = credenciales.user.uid
-                await setIsAuthenticated(!!userId)
+                setIsAuthenticated(!!userId)
                 setTimeout(()=> navigation.navigate('Tabs'),100)
                 navigation.navigate('Tabs')
             } catch (error) {
