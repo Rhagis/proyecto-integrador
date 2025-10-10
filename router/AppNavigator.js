@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import {useAuth} from '../auth/useAuth'
 import { NavigationContainer } from "@react-navigation/native";
 
-const Stack = createNativeStackNavigator
+const Stack = createNativeStackNavigator()
 
 export function AppNavigator(){
     const {isAuthenticated} = useAuth()

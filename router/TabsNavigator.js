@@ -1,13 +1,14 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
-import InicioScreen from '../Screens/InicioScreen'
-import EditarPerfilScreen from '../Screens/EditarPerfirScreen'
-import MisViajesScreen from '../Screens/MisviajesScreen'
-import NuevoViajeScreen from '../Screens/NuevoViajeScreen'
-import PerfilScreen from '../Screens/PerfilScreen'
+import InicioScreen from '../Screens/InicioScreen.js'
+import EditarPerfilScreen from '../Screens/EditarPerfirScreen.js'
+import MisViajesScreen from '../Screens/MisviajesScreen.js'
+import NuevoViajeScreen from '../Screens/NuevoViajeScreen.js'
+import PerfilScreen from '../Screens/PerfilScreen.js'
 
 const Tab = createBottomTabNavigator()
 
 export default function TabsNavigator() {
+    
     return (
         <Tab.Navigator>
             <Tab.Screen name="Inicio" component={InicioScreen}></Tab.Screen>
