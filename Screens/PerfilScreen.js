@@ -225,30 +225,50 @@ export default function PerfilScreen({ navigation }) {
   );
 }*/
 
-
-
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import * as Location from 'expo-location';
 import MapView, { Marker } from "react-native-maps";
 import { View, Text, Image, StyleSheet, TouchableOpacity, ActivityIndicator, Modal, Alert } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import { useFocusEffect } from "@react-navigation/native";
 
 export default function PerfilScreen() {
-  // Datos del perfil (pueden venir de una API o AsyncStorage)
-  const perfil = {
-    nombre: "Pablo",
-    apellido: "Picasso",
-    edad: 100,
-    foto: "", // si está vacío se mostrará una imagen por defecto
-  };
-
+  // Estado para los datos del perfil guardados
+  const [perfil, setPerfil] = useState(null);
   const [coords, setCoords] = useState(null);
   const [obteniendo, setObteniendo] = useState(false);
   const [siguiendo, setSiguiendo] = useState(false);
   const [suscripcion, setSuscripcion] = useState(null);
   const [mapVisible, setMapVisible] = useState(false);
 
+  // Cargar datos del perfil guardado en AsyncStorage
+  // Cargar datos del perfil guardado en AsyncStorage cuando la pantalla esté en foco
+useFocusEffect(
+  useCallback(() => {
+    const cargarPerfil = async () => {
+      try {
+        const perfilGuardado = await AsyncStorage.getItem("@perfil");
+        if (perfilGuardado) {
+          setPerfil(JSON.parse(perfilGuardado));
+        } else {
+          setPerfil({
+            nombre: "Nombre",
+            apellido: "Apellido",
+            edad: "Edad",
+            foto: "",
+          });
+        }
+      } catch (error) {
+        console.error("Error al cargar perfil:", error);
+      }
+    };
+
+    cargarPerfil();
+  }, [])
+);
+
+
+  //Ubicacion
   const solicitarPermiso = async () => {
     const { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== 'granted') {
@@ -322,9 +342,17 @@ export default function PerfilScreen() {
     setSiguiendo(false);
   };
 
+  if (!perfil) {
   return (
     <View style={styles.container}>
+      <ActivityIndicator size="large" color="#1e90ff" />
+      <Text style={{ color: "#fff", marginTop: 10 }}>Cargando perfil...</Text>
+    </View>
+  );
+}
 
+  return (
+    <View style={styles.container}>
       {/* Perfil */}
       <View style={styles.profileContainer}>
         {perfil?.foto ? (
@@ -439,6 +467,7 @@ export default function PerfilScreen() {
   );
 }
 
+//estilos
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -469,7 +498,8 @@ const styles = StyleSheet.create({
   fotoVacia: {
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#eaeaea",  },
+    backgroundColor: "#eaeaea",  
+  },
   profileName: {
     fontSize: 20,
     fontWeight: 'bold',
@@ -482,7 +512,7 @@ const styles = StyleSheet.create({
   },
   coordsContainer: {
     backgroundColor: 'white',
-    padding: 20,
+    padding: 10,
     borderRadius: 12,
     marginBottom: 30,
     minWidth: '90%',
