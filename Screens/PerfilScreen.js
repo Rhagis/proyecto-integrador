@@ -231,6 +231,7 @@ import MapView, { Marker } from "react-native-maps";
 import { View, Text, Image, StyleSheet, TouchableOpacity, ActivityIndicator, Modal, Alert } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect } from "@react-navigation/native";
+import * as SecureStore from 'expo-secure-store';
 
 export default function PerfilScreen() {
   // Estado para los datos del perfil guardados
@@ -240,14 +241,15 @@ export default function PerfilScreen() {
   const [siguiendo, setSiguiendo] = useState(false);
   const [suscripcion, setSuscripcion] = useState(null);
   const [mapVisible, setMapVisible] = useState(false);
-
+  
+  
   // Cargar datos del perfil guardado en AsyncStorage
-  // Cargar datos del perfil guardado en AsyncStorage cuando la pantalla esté en foco
-useFocusEffect(
+  
+/*useFocusEffect(
   useCallback(() => {
     const cargarPerfil = async () => {
       try {
-        const perfilGuardado = await AsyncStorage.getItem("@perfil");
+        const perfilGuardado = await AsyncStorage.getItem(`@perfil_${userId}`);
         if (perfilGuardado) {
           setPerfil(JSON.parse(perfilGuardado));
         } else {
@@ -265,7 +267,41 @@ useFocusEffect(
 
     cargarPerfil();
   }, [])
+);*/
+
+useFocusEffect(
+  useCallback(() => {
+    const cargarPerfil = async () => {
+      try {
+        // ✅ Leer el userId real desde SecureStore
+        const userId = await SecureStore.getItemAsync('userToken');
+        if (!userId) {
+          console.warn("No se encontró userId en SecureStore");
+          return;
+        }
+
+        // ✅ Leer el perfil específico de ese usuario
+        const perfilGuardado = await AsyncStorage.getItem(`@perfil_${userId}`);
+        if (perfilGuardado) {
+          setPerfil(JSON.parse(perfilGuardado));
+        } else {
+          // Si no existe, inicializamos con datos vacíos o por defecto
+          setPerfil({
+            nombre: "Nombre",
+            apellido: "Apellido",
+            edad: "Edad",
+            foto: "",
+          });
+        }
+      } catch (error) {
+        console.error("Error al cargar perfil:", error);
+      }
+    };
+
+    cargarPerfil();
+  }, [])
 );
+
 
 
   //Ubicacion
