@@ -211,43 +211,76 @@ export default function InicioScreen({ navigation }) {
         style={styles.button}
         onPress={() => navigation.navigate('Perfil')}
       >
-        <Text style={styles.buttonText}>👤 Ver Perfil</Text>
+        <Text style={styles.buttonText}>Ver Perfil</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
         style={styles.button}
         onPress={() => navigation.navigate('Editar Perfil')}
       >
-        <Text style={styles.buttonText}>✏️ Editar Perfil</Text>
+        <Text style={styles.buttonText}>Editar Perfil</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
         style={styles.button}
         onPress={() => navigation.navigate('Mis viajes')}
       >
-        <Text style={styles.buttonText}>🧳 Mis Viajes</Text>
+        <Text style={styles.buttonText}>Mis Viajes</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
         style={styles.button}
         onPress={() => navigation.navigate('Nuevo viaje')}
       >
-        <Text style={styles.buttonText}>➕ Nuevo Viaje</Text>
+        <Text style={styles.buttonText}>Nuevo Viaje</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={[styles.button, styles.logoutButton]} onPress={logout}>
-        <Text style={styles.buttonText}>🚪 Cerrar Sesión</Text>
+        <Text style={styles.buttonText}>Cerrar Sesión</Text>
       </TouchableOpacity>
     </View>
   );
 }
 
-// Estilos (igual que antes)
+// Estilos
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 24, backgroundColor: '#0d1117' },
-  title: { fontSize: 22, fontWeight: '800', marginBottom: 30, color: '#e6edf3', letterSpacing: 1 },
-  button: { width: '80%', height: 50, backgroundColor: '#238636', justifyContent: 'center', alignItems: 'center', borderRadius: 12, marginVertical: 8, shadowColor: '#000', shadowOffset: { width: 0, height: 3 }, shadowOpacity: 0.3, shadowRadius: 4, elevation: 5 },
-  logoutButton: { backgroundColor: '#d73a49', marginTop: 20 },
-  buttonText: { color: '#fff', fontSize: 17, fontWeight: 'bold', letterSpacing: 0.5 },
+  container: { 
+    flex: 1, 
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    padding: 24, 
+    backgroundColor: '#0d1117' 
+  },
+  title: { 
+    fontSize: 22, 
+    fontWeight: '800', 
+    marginBottom: 30, 
+    color: '#e6edf3', 
+    letterSpacing: 1 
+  },
+  button: { 
+    width: '80%', 
+    height: 50, 
+    backgroundColor: '#238636', 
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    borderRadius: 12, 
+    marginVertical: 8, 
+    shadowColor: '#000', 
+    shadowOffset: { width: 0, height: 3 }, 
+    shadowOpacity: 0.3, 
+    shadowRadius: 4, 
+    elevation: 5 
+  },
+  logoutButton: { 
+    backgroundColor: '#d73a49', 
+    marginTop: 20 
+  },
+  buttonText: { 
+    color: '#fff', 
+    fontSize: 17, 
+    fontWeight: 'bold', 
+    letterSpacing: 0.5 
+  },
 });
 
