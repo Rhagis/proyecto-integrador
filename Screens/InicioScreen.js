@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator} from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator,} from "react-native";
 import { useAuth } from "../auth/useAuth";
 import * as SecureStore from "expo-secure-store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -55,14 +55,12 @@ export default function InicioScreen({ navigation }) {
         onPress={() => navigation.navigate("Perfil")}
       >
         <Text style={styles.buttonText}>Ver Perfil</Text>
-        <Text style={styles.buttonText}>Ver Perfil</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
         style={styles.button}
         onPress={() => navigation.navigate("Editar Perfil")}
       >
-        <Text style={styles.buttonText}>Editar Perfil</Text>
         <Text style={styles.buttonText}>Editar Perfil</Text>
       </TouchableOpacity>
 
@@ -71,14 +69,12 @@ export default function InicioScreen({ navigation }) {
         onPress={() => navigation.navigate("Mis viajes")}
       >
         <Text style={styles.buttonText}>Mis Viajes</Text>
-        <Text style={styles.buttonText}>Mis Viajes</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
         style={styles.button}
         onPress={() => navigation.navigate("Nuevo viaje")}
       >
-        <Text style={styles.buttonText}>Nuevo Viaje</Text>
         <Text style={styles.buttonText}>Nuevo Viaje</Text>
       </TouchableOpacity>
 
@@ -92,7 +88,6 @@ export default function InicioScreen({ navigation }) {
   );
 }
 
-// Estilos
 // Estilos
 const styles = StyleSheet.create({
   container: {

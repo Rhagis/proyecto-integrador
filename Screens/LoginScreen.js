@@ -76,7 +76,8 @@ export default function LoginScreen({ navigation }) {
   
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Bienvenido</Text>
+      <Text style={styles.title}>Mi Perfil viajero</Text>
+      <Text style={styles.title}>Login/Registro</Text>
 
       <View style={styles.inputContainer}>
         <Animated.View style={[styles.animatedBorder, { borderColor }]} />
