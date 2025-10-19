@@ -1,12 +1,8 @@
-/*export default function EditarPerfilScreen(){
-    return 'hola'
-}*/
-
 import React, { useState, useEffect, useRef } from "react";
-import { View, Text, TextInput, TouchableOpacity, Image, ActivityIndicator, StyleSheet } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, Image, ActivityIndicator, StyleSheet} from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { CameraView, useCameraPermissions } from "expo-camera";
-import * as SecureStore from 'expo-secure-store';
+import * as SecureStore from "expo-secure-store";
 
 export default function EditarPerfilScreen({ navigation }) {
   const [perfil, setPerfil] = useState({
@@ -24,10 +20,18 @@ export default function EditarPerfilScreen({ navigation }) {
   }, []);
 
   // Cargar datos guardados del perfil
-  /*const cargarPerfil = async () => {
+  const cargarPerfil = async () => {
     try {
+      const userId = await SecureStore.getItemAsync("userToken");
+      if (!userId) {
+        console.warn("No se encontró userId en SecureStore");
+        return;
+      }
+
       const data = await AsyncStorage.getItem(`@perfil_${userId}`);
-      if (data) setPerfil(JSON.parse(data));
+      if (data) {
+        setPerfil(JSON.parse(data));
+      }
     } catch (error) {
       console.error("Error al cargar perfil:", error);
     } finally {
@@ -38,49 +42,19 @@ export default function EditarPerfilScreen({ navigation }) {
   // Guardar datos del perfil
   const guardarPerfil = async () => {
     try {
+      const userId = await SecureStore.getItemAsync("userToken");
+      if (!userId) {
+        console.warn("No se encontró userId en SecureStore");
+        return;
+      }
+
       await AsyncStorage.setItem(`@perfil_${userId}`, JSON.stringify(perfil));
       alert("Perfil guardado correctamente");
       navigation.goBack();
     } catch (error) {
       console.error("Error al guardar perfil:", error);
     }
-  };*/
-
-  const cargarPerfil = async () => {
-  try {
-    const userId = await SecureStore.getItemAsync('userToken'); // ✅ obtenemos el ID real
-    if (!userId) {
-      console.warn('No se encontró userId en SecureStore');
-      return;
-    }
-
-    const data = await AsyncStorage.getItem(`@perfil_${userId}`);
-    if (data) {
-      setPerfil(JSON.parse(data));
-    }
-  } catch (error) {
-    console.error('Error al cargar perfil:', error);
-  } finally {
-    setLoading(false);
-  }
-};
-
-// Guardar datos del perfil
-const guardarPerfil = async () => {
-  try {
-    const userId = await SecureStore.getItemAsync('userToken'); // ✅ mismo userId aquí también
-    if (!userId) {
-      console.warn('No se encontró userId en SecureStore');
-      return;
-    }
-
-    await AsyncStorage.setItem(`@perfil_${userId}`, JSON.stringify(perfil));
-    alert('Perfil guardado correctamente');
-    navigation.goBack();
-  } catch (error) {
-    console.error('Error al guardar perfil:', error);
-  }
-};
+  };
 
   // Tomar foto con la cámara
   const tomarFoto = async () => {
@@ -131,7 +105,7 @@ const guardarPerfil = async () => {
     );
   }
 
-  // Vista principal de edición
+  // Vista principal de edición de perfil
   return (
     <View style={styles.container}>
       <Text style={styles.titulo}>Editar Perfil</Text>
@@ -193,7 +167,7 @@ const guardarPerfil = async () => {
   );
 }
 
-// ✅ Tus estilos originales
+//Estilos
 const styles = StyleSheet.create({
   container: {
     flex: 1,

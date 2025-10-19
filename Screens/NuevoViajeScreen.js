@@ -1,17 +1,14 @@
-/*export default function NuevoViajeScreen(){
-    return 'hola'
-}*/
-
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, StyleSheet, ActivityIndicator, Alert } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, ActivityIndicator, Alert} from "react-native";
 import * as Location from "expo-location";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import * as SecureStore from 'expo-secure-store';
+import * as SecureStore from "expo-secure-store";
 
 export default function NuevoViajeScreen({ navigation }) {
   const [coords, setCoords] = useState(null);
   const [guardando, setGuardando] = useState(false);
 
+  // Función para solicitar permiso de ubicación
   const solicitarPermiso = async () => {
     const { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== "granted") {
@@ -21,6 +18,7 @@ export default function NuevoViajeScreen({ navigation }) {
     return true;
   };
 
+  // Función para obtener la ubicación actual
   const obtenerUbicacion = async () => {
     const permiso = await solicitarPermiso();
     if (!permiso) return;
@@ -39,34 +37,7 @@ export default function NuevoViajeScreen({ navigation }) {
       setGuardando(false);
     }
   };
-
-  /*const guardarViaje = async () => {
-    if (!coords) {
-      Alert.alert("Sin ubicación", "Primero obtén tu ubicación actual");
-      return;
-    }
-
-    try {
-      const data = await AsyncStorage.getItem("@viajes");
-      const viajes = data ? JSON.parse(data) : [];
-
-      const nuevoViaje = {
-        id: Date.now(),
-        fecha: new Date().toLocaleString(),
-        latitud: coords.latitude,
-        longitud: coords.longitude,
-      };
-
-      const nuevosViajes = [...viajes, nuevoViaje];
-      await AsyncStorage.setItem("@viajes", JSON.stringify(nuevosViajes));
-
-      Alert.alert("Éxito", "Viaje guardado correctamente");
-      navigation.goBack();
-    } catch (error) {
-      console.error("Error al guardar viaje:", error);
-    }
-  };*/
-
+  // Función para guardar el viaje
   const guardarViaje = async () => {
     if (!coords) {
       Alert.alert("Sin ubicación", "Primero obtén tu ubicación actual");
@@ -74,14 +45,14 @@ export default function NuevoViajeScreen({ navigation }) {
     }
 
     try {
-      // ✅ Obtener el ID del usuario actual desde SecureStore
+      //Obtener el ID del usuario actual desde SecureStore
       const userId = await SecureStore.getItemAsync("userToken");
       if (!userId) {
         Alert.alert("Error", "No se encontró el usuario activo.");
         return;
       }
 
-      // ✅ Leer los viajes del usuario específico
+      //Leer los viajes del usuario específico
       const data = await AsyncStorage.getItem(`@viajes_${userId}`);
       const viajes = data ? JSON.parse(data) : [];
 
@@ -94,8 +65,11 @@ export default function NuevoViajeScreen({ navigation }) {
 
       const nuevosViajes = [...viajes, nuevoViaje];
 
-      // ✅ Guardar los viajes solo bajo la clave del usuario actual
-      await AsyncStorage.setItem(`@viajes_${userId}`, JSON.stringify(nuevosViajes));
+      //Guardar los viajes con la clave del usuario actual
+      await AsyncStorage.setItem(
+        `@viajes_${userId}`,
+        JSON.stringify(nuevosViajes)
+      );
 
       Alert.alert("Éxito", "Viaje guardado correctamente");
       navigation.goBack();
@@ -110,31 +84,52 @@ export default function NuevoViajeScreen({ navigation }) {
 
       {coords ? (
         <View style={styles.coordsContainer}>
-          <Text style={styles.coordText}>Latitud: {coords.latitude.toFixed(6)}</Text>
-          <Text style={styles.coordText}>Longitud: {coords.longitude.toFixed(6)}</Text>
+          <Text style={styles.coordText}>
+            Latitud: {coords.latitude.toFixed(6)}
+          </Text>
+          <Text style={styles.coordText}>
+            Longitud: {coords.longitude.toFixed(6)}
+          </Text>
         </View>
       ) : (
-        <Text style={{ color: "#aaa", marginBottom: 15 }}>No se ha capturado ubicación</Text>
+        <Text style={{ color: "#aaa", marginBottom: 15 }}>
+          No se ha capturado ubicación
+        </Text>
       )}
 
-      <TouchableOpacity style={styles.mapButton} onPress={obtenerUbicacion} disabled={guardando}>
-        <Text style={styles.buttonText}>{guardando ? "Obteniendo..." : "Obtener Ubicación"}</Text>
+      <TouchableOpacity
+        style={styles.mapButton}
+        onPress={obtenerUbicacion}
+        disabled={guardando}
+      >
+        <Text style={styles.buttonText}>
+          {guardando ? "Obteniendo..." : "Obtener Ubicación"}
+        </Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.startButton} onPress={guardarViaje}>
         <Text style={styles.buttonText}>Guardar Viaje</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.clearButton} onPress={() => navigation.goBack()}>
+      <TouchableOpacity
+        style={styles.clearButton}
+        onPress={() => navigation.goBack()}
+      >
         <Text style={styles.buttonText}>↩ Volver</Text>
       </TouchableOpacity>
 
-      {guardando && <ActivityIndicator size="large" color="#1e90ff" style={{ marginTop: 20 }} />}
+      {guardando && (
+        <ActivityIndicator
+          size="large"
+          color="#1e90ff"
+          style={{ marginTop: 20 }}
+        />
+      )}
     </View>
   );
 }
 
-// estilos
+//Estilos
 const styles = StyleSheet.create({
   container: {
     flex: 1,
